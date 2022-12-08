@@ -1,15 +1,6 @@
-//
-//  RegisterCoordinator.swift
-//  AppNotifica
-//
-//  Created by Dario Pintor on 20/10/22.
-//
-
-import Foundation
-
-
 import Foundation
 import UIKit
+
 class RegisterCoordinator: Coordinator {
     
     //faço com que todas as telas que usarem o LoginCoordinator impremente
@@ -26,5 +17,13 @@ class RegisterCoordinator: Coordinator {
         let viewController = RegisterViewController()
             self.navigationController.pushViewController(viewController, animated: true)
 
+            viewController.onLoginTap = {
+              self.gotoLogin()
+            }
+    }
+    
+    //função que chama a registerView
+    func  gotoLogin() {
+        self.navigationController.popViewController(animated: true)
     }
 }
