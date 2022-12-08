@@ -1,10 +1,3 @@
-//
-//  UIcolor+.swift
-//  AppNotifica
-//
-//  Created by Dario Pintor on 19/10/22.
-//
-
 import Foundation
 import UIKit
 
@@ -27,8 +20,5 @@ extension UIColor {
     static var placeHolderColor: UIColor {
         UIColor(named: "placeHolderColor") ?? .white
     }
-    
-    
-    
-    
+
 }

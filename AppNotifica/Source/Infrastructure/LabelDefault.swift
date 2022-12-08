@@ -1,10 +1,3 @@
-//
-//  LabelDefault.swift
-//  AppNotifica
-//
-//  Created by Dario Pintor on 19/10/22.
-//
-
 import Foundation
 import UIKit
 
@@ -24,7 +17,7 @@ class LabelDefault : UILabel{
         self.adjustsFontSizeToFitWidth = true
         self.numberOfLines = 0;
         self.translatesAutoresizingMaskIntoConstraints = false
-        //UIFont(name: "SFProDisplay-Light", size: 80)
+ 
     }
     
     required init?(coder: NSCoder) {
