@@ -2,7 +2,7 @@
 //  LoginView.swift
 //  AppNotifica
 //
-//  Created by Dario Pintor on 14/10/22.
+//  Created by Izadora Netz.
 //
 
 import Foundation
@@ -21,7 +21,7 @@ class LoginView: UIView {
     
     //MARK - Closures
     var onRegisterTap: (() -> Void)?
-    
+    var onLoginTap: (() -> Void)?
     
     //cria a função com as propriadades da imagem no login
     var imageLogin = ImageDefault(image: "ImageLogin")
@@ -54,7 +54,8 @@ class LoginView: UIView {
         // #selector é característico da linguagem objective c
         
         buttonRegistrar.addTarget(self, action: #selector(registerTap), for: .touchUpInside)
-        
+        buttonLogar.addTarget(self, action: #selector(loginTap), for: .touchUpInside)
+
         NSLayoutConstraint.activate([
         
             imageLogin.widthAnchor.constraint(equalToConstant: 274.99),
@@ -94,16 +95,30 @@ class LoginView: UIView {
 
         
         ])
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK - Actions
-    
+     //MARK: - Actions
     @objc
-    private func registerTap() {
+    private func registerTap(){
         onRegisterTap?()
     }
     
+    @objc
+    private func loginTap(){
+        onLoginTap?()
+    }
+}
+
+extension LoginView: UITextFieldDelegate {
+  
+    //configura o botão seguinte do teclado
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == emailTextField {
+            self.senhaTextField.becomeFirstResponder()
+        
+    } else {
+        textField.resignFirstResponder()
+    }
+
+        return true
+    }
 }

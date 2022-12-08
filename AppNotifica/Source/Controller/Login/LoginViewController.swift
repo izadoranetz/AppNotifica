@@ -2,7 +2,7 @@
 //  LoginViewController.swift
 //  AppNotifica
 //
-//  Created by Dario Pintor on 14/10/22.
+//  Created by Izadora Netz.
 //
 
 import Foundation
@@ -12,7 +12,8 @@ class LoginViewController: UIViewController {
     
     //MARK - Clousures
     var onRegisterTap: (()-> Void)?
-    
+    var onLoginTap: (() -> Void)?
+
     //cria uma variável que é do tipo LoginView
     //lazy para a criação da variável ficar mais flexívels
     lazy var loginView: LoginView = {
@@ -20,6 +21,11 @@ class LoginViewController: UIViewController {
         loginView.onRegisterTap = {
             self.onRegisterTap?()
         }
+        
+        loginView.onLoginTap = {
+            self.onLoginTap?()
+        }
+        
         return loginView
     }()
     
@@ -31,8 +37,7 @@ class LoginViewController: UIViewController {
        override func viewDidLoad() {
            super.viewDidLoad()
         self.title = "Logar"
-           
-           self.navigationController?.navigationBar.prefersLargeTitles=true
+    
 
        }
 

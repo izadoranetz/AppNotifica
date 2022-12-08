@@ -1,38 +1,36 @@
-//
-//  RegisterView.swift
-//  AppNotifica
-//
-//  Created by Dario Pintor on 20/10/22.
-//
+
 
 import Foundation
 import UIKit
 
-class RegisterView: UIView {
-    //MARK: - Initialize
-        override init(frame: CGRect) {
-            //chama o frame da superclasse
-            super.init(frame: frame)
-            // muda a cor de fundo do app para branco
-            self.backgroundColor = .viewBackGroundColor
-            setupVisualElements()
-            
-        }
+class RegisterView: ViewDefault {
     
-       
-
+    //MARK: - Clouseres
+    var onLoginTap: (()->Void)?
+     
     //cria a função com as propriadades da label no login
     var imageLabel = LabelDefault(text: "Entre com seu email e sua senha para se registrar", font: UIFont.systemFont(ofSize: 27, weight: .regular))
     
+    //cria a função com as propriadades da text no login
+    var emailTextField = TextFieldDefault (placeholder: "E-mail", keyBordType: .emailAddress, returnKeyType: .next)
     
     //cria a função com as propriadades da text no login
-    var emailTextField = TextFieldDefault (placeholder: "E-mail")
+    var senhaTextField : TextFieldDefault  = {
+        let text = TextFieldDefault(placeholder: "Senha", keyBordType: .emailAddress, returnKeyType: .next)
+        
+        text.isSecureTextEntry = true;
+        
+        return text
+         }()
     
     //cria a função com as propriadades da text no login
-    var senhaTextField = TextFieldDefault (placeholder: "Senha")
-    
-    //cria a função com as propriadades da text no login
-    var confirmaSenhaTextField = TextFieldDefault (placeholder: "Confirme sua senha")
+    var confirmaSenhaTextField : TextFieldDefault  = {
+        let text = TextFieldDefault(placeholder: "Confirme sua Senha", keyBordType: .emailAddress, returnKeyType: .done)
+        
+        text.isSecureTextEntry = true;
+        
+        return text
+         }()
     
     //cria a função com as propriadades do botão registrar
     var buttonRegistrar = ButtonDefault(botao: "REGISTRAR")
@@ -40,10 +38,11 @@ class RegisterView: UIView {
     //cria a função com as propriadades da butao no logor
     var buttonLogar = ButtonDefault(botao: "LOGAR")
     
-   
-        
-    
-    func setupVisualElements() {
+    override func setupVisualElements() {
+        super.setupVisualElements()
+        emailTextField.delegate = self
+        senhaTextField.delegate = self
+        confirmaSenhaTextField.delegate = self
         
         self.addSubview(imageLabel)
         self.addSubview(emailTextField)
@@ -51,6 +50,8 @@ class RegisterView: UIView {
         self.addSubview(confirmaSenhaTextField)
         self.addSubview(buttonRegistrar)
         self.addSubview(buttonLogar)
+        
+        buttonLogar.addTarget(self, action: #selector(loginTap), for: .touchUpInside)
         
         
         NSLayoutConstraint.activate([
@@ -79,8 +80,6 @@ class RegisterView: UIView {
             confirmaSenhaTextField.topAnchor.constraint(equalTo: senhaTextField.bottomAnchor, constant: 23),
             confirmaSenhaTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             confirmaSenhaTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
-            
 
             buttonRegistrar.widthAnchor.constraint(equalToConstant: 374),
             buttonRegistrar.heightAnchor.constraint(equalToConstant: 60),
@@ -97,8 +96,33 @@ class RegisterView: UIView {
         
         ])
     }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    //MARK: - Actions
+    @objc
+    private func loginTap(){
+        onLoginTap?()
     }
     
+    
 }
+
+extension RegisterView: UITextFieldDelegate {
+    
+        
+        //configura o botão seguinte do teclado
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            
+            if textField == emailTextField {
+                self.senhaTextField.becomeFirstResponder()
+                
+            } else if textField == senhaTextField {
+                self.confirmaSenhaTextField.becomeFirstResponder()
+                
+            } else {
+                textField.resignFirstResponder()
+            }
+            
+            return true
+        }
+    }
+    
